@@ -1,0 +1,36 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Kafka Monitoring Dashboard Template",
+  "Parameters": {
+    "InstanceId": {
+      "Type": "String",
+      "Description": "EC2 Instance ID where Kafka is running"
+    }
+  },
+  "Resources": {
+    "KafkaDashboard": {
+      "Type": "AWS::CloudWatch::Dashboard",
+      "Properties": {
+        "DashboardName": "ApacheKafkaOnEc2-Real",
+        "DashboardBody": {
+          "Fn::Sub": [
+            "{\"widgets\":[{\"type\":\"metric\",\"x\":0,\"y\":0,\"width\":12,\"height\":6,\"properties\":{\"metrics\":[[\"CWAgent\",\"kafka.producer.request-rate\",\"InstanceId\",\"${InstanceId}\",\"ProducerGroupName\",\"KafkaProducer\",\"client-id\",\"dashboard-java-producer\"],[\".\",\"kafka.producer.response-rate\",\".\",\".\",\".\",\".\",\".\",\".\"]],\"view\":\"timeSeries\",\"stacked\":false,\"region\":\"us-west-2\",\"title\":\"Producer Request/Response Rate\",\"period\":300}},{\"type\":\"metric\",\"x\":12,\"y\":0,\"width\":12,\"height\":6,\"properties\":{\"metrics\":[[\"CWAgent\",\"kafka.consumer.fetch-rate\",\"InstanceId\",\"${InstanceId}\",\"ConsumerGroupName\",\"KafkaConsumer\",\"client-id\",\"dashboard-java-consumer\"],[\".\",\"kafka.consumer.records-consumed-rate\",\".\",\".\",\".\",\".\",\".\",\".\",\"topic\",\"dashboard-metrics-test\"]],\"view\":\"timeSeries\",\"stacked\":false,\"region\":\"us-west-2\",\"title\":\"Consumer Fetch/Records Rate\",\"period\":300}},{\"type\":\"metric\",\"x\":0,\"y\":6,\"width\":12,\"height\":6,\"properties\":{\"metrics\":[[\"CWAgent\",\"jvm.memory.heap.used\",\"InstanceId\",\"${InstanceId}\",\"ProcessGroupName\",\"kafka-cluster\"],[\".\",\"jvm.memory.heap.committed\",\".\",\".\",\".\",\".\"]],\"view\":\"timeSeries\",\"stacked\":false,\"region\":\"us-west-2\",\"title\":\"JVM Heap Memory\",\"period\":300}},{\"type\":\"metric\",\"x\":12,\"y\":6,\"width\":12,\"height\":6,\"properties\":{\"metrics\":[[\"CWAgent\",\"kafka.partition.offline\",\"InstanceId\",\"${InstanceId}\",\"ClusterName\",\"kafka-cluster\"],[\".\",\"kafka.partition.under_replicated\",\".\",\".\",\".\",\".\"]],\"view\":\"timeSeries\",\"stacked\":false,\"region\":\"us-west-2\",\"title\":\"Kafka Partition Health\",\"period\":300}}]}",
+            {
+              "InstanceId": {
+                "Ref": "InstanceId"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "DashboardURL": {
+      "Description": "URL to the CloudWatch Dashboard",
+      "Value": {
+        "Fn::Sub": "https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#dashboards:name=ApacheKafkaOnEc2-Real"
+      }
+    }
+  }
+}

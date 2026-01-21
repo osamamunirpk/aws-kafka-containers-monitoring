@@ -1,0 +1,50 @@
+# Logs
+*.log
+logs/
+/tmp/*.log
+
+# AWS credentials and config
+.aws/
+*.pem
+*.key
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/*
+
+# Compiled Java
+*.class
+*.jar
+target/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# CloudWatch Agent
+/opt/aws/amazon-cloudwatch-agent/
+
+# Instance-specific
+instance-id.txt
+current-region.txt

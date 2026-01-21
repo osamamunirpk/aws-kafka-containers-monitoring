@@ -1,0 +1,61 @@
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "run_as_user": "cwagent"
+  },
+  "metrics": {
+    "namespace": "CWAgent",
+    "metrics_collected": {
+      "jvm": {
+        "measurement": [
+          "jvm.classes.loaded",
+          "jvm.gc.collections.count",
+          "jvm.gc.collections.elapsed",
+          "jvm.memory.heap.committed",
+          "jvm.memory.heap.max",
+          "jvm.memory.heap.used",
+          "jvm.memory.nonheap.committed",
+          "jvm.memory.nonheap.max",
+          "jvm.memory.nonheap.used",
+          "jvm.threads.count"
+        ],
+        "metrics_collection_interval": 60,
+        "totalmetrics": false,
+        "jmx": {
+          "host": "127.0.0.1",
+          "port": "9999"
+        }
+      },
+      "kafka": {
+        "measurement": [
+          "kafka.consumer.bytes-consumed-rate",
+          "kafka.consumer.fetch-rate",
+          "kafka.consumer.records-consumed-rate",
+          "kafka.consumer.records-lag-max",
+          "kafka.consumer.total.bytes-consumed-rate",
+          "kafka.isr.operation.count",
+          "kafka.leader.election.rate",
+          "kafka.network.io",
+          "kafka.partition.offline",
+          "kafka.partition.under_replicated",
+          "kafka.producer.byte-rate",
+          "kafka.producer.record-error-rate",
+          "kafka.producer.record-send-rate",
+          "kafka.producer.request-latency-avg",
+          "kafka.producer.request-rate",
+          "kafka.producer.response-rate",
+          "kafka.purgatory.size",
+          "kafka.request.count",
+          "kafka.request.failed",
+          "kafka.request.time.avg"
+        ],
+        "metrics_collection_interval": 60,
+        "totalmetrics": false,
+        "jmx": {
+          "host": "127.0.0.1",
+          "port": "9999"
+        }
+      }
+    }
+  }
+}

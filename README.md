@@ -1,13 +1,24 @@
-# AWS Kafka Monitoring Solution
+# AWS Kafka Container Monitoring Solution
 
-A comprehensive monitoring solution for Apache Kafka running on AWS EC2 with CloudWatch integration, automated dashboards, and intelligent alerting.
+A comprehensive monitoring solution for **Apache Kafka running in Docker containers** on AWS EC2 with CloudWatch integration, automated dashboards, and intelligent alerting.
+
+## 🐳 Container-Based Architecture
+
+This solution monitors **Kafka clusters running in Docker containers**, not traditional EC2-based Kafka installations. Key features:
+
+- **3-node Kafka cluster** deployed via Docker Compose
+- **JMX monitoring** from containerized Kafka brokers  
+- **Containerized producer/consumer applications** with metrics
+- **CloudWatch Agent** collecting metrics from Docker containers
+- **Container health monitoring** and auto-restart capabilities
 
 ## Overview
 
-This solution provides enterprise-grade monitoring for Kafka clusters with:
+This solution provides enterprise-grade monitoring for **containerized Kafka clusters** with:
 - **Real-time CloudWatch Dashboard** with 30+ metrics
-- **Automated Metric Collection** from JMX endpoints
+- **Automated Metric Collection** from JMX endpoints in containers
 - **Intelligent Alerting** with email notifications
+- **Container orchestration** and health management
 - **Self-Healing Watchdog** with 5-minute recovery cycles
 - **Generic Dashboard Design** that adapts to any Kafka deployment
 

@@ -102,11 +102,27 @@ critical_topics = ['orders', 'payments', 'notifications']
 topic_dimension = 'all-topics'
 ```
 
-## ✅ Key Takeaway
+## 🏢 Enterprise vs Sample Implementation
 
-**Current cost**: $9.60/month assumes **1 topic** (`dashboard-metrics-test`)
+### Sample Implementation (This Repository)
+- **Scale**: 1 cluster, 1 topic, 2 producers, 2 consumers
+- **Metrics**: 32 total
+- **Cost**: $9.60/month
+- **Purpose**: Learning and development
 
-**If you have multiple topics**, add **$1.50/month per additional topic** (5 metrics × $0.30)
+### Enterprise Production Scale
+- **Scale**: 1 cluster, 1,000 topics, multiple producers/consumers per topic
+- **Metrics**: 5,210 total (180 broker + 3,015 producer + 2,015 consumer)
+- **Cost**: $1,563.00/month  
+- **Purpose**: Production monitoring
+
+### Cost Scaling Reality
+```
+Sample → Enterprise = 163x cost increase
+$9.60/month → $1,563.00/month
+```
+
+This demonstrates why **selective monitoring** and **metric optimization** are critical for production deployments.
 
 ## 🔍 Key Insight
 

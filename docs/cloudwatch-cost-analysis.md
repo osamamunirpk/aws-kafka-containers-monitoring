@@ -26,26 +26,87 @@
 - **JVM metrics**: Aggregated per `ProcessGroupName: kafka-cluster`
 - **Cluster metrics**: Aggregated per `ClusterName: kafka-cluster`
 
-## 💰 Updated Cost Analysis
+## 📊 Topic-Level Metrics Breakdown
 
-### Current Implementation: 32 Metrics Per Cluster
+**YES** - Some metrics are **topic-specific**, which affects the total count:
+
+### Topic-Specific Metrics (5 metrics)
+These metrics include a `topic` dimension:
+1. `kafka.producer.record-send-rate` → topic: `dashboard-metrics-test`
+2. `kafka.producer.record-error-rate` → topic: `dashboard-metrics-test`  
+3. `kafka.producer.byte-rate` → topic: `dashboard-metrics-test`
+4. `kafka.consumer.records-consumed-rate` → topic: `dashboard-metrics-test`
+5. `kafka.consumer.bytes-consumed-rate` → topic: `dashboard-metrics-test`
+
+### Cluster-Level Metrics (27 metrics)
+These metrics are **not** topic-specific:
+- Producer: request-rate, response-rate, request-latency-avg (3)
+- Consumer: fetch-rate, total.bytes-consumed-rate, records-lag-max (3)
+- JVM: All 12 metrics
+- Kafka Cluster: All 9 metrics
+
+## 💰 Cost Impact Per Topic
+
+### Current Implementation (1 Topic)
 ```
-1 Kafka Cluster = 32 metrics = $9.60/month
+1 cluster + 1 topic = 32 metrics = $9.60/month
 ```
 
-### If Metrics Were Per Producer/Consumer
-**Hypothetical scenario** (if each app had unique client-ids):
-- 2 Producers × 6 metrics = 12 producer metrics
-- 2 Consumers × 5 metrics = 10 consumer metrics  
-- 1 Cluster × 21 metrics = 21 cluster/JVM metrics
-- **Total**: 43 metrics = $12.90/month
+### Multiple Topics Scenario
+If you add more topics, **only 5 metrics multiply**:
 
-### Scaling with Multiple Clusters
 ```
-1 cluster = 32 metrics = $9.60/month
-5 clusters = 160 metrics = $48.00/month
-10 clusters = 320 metrics = $96.00/month
+1 cluster + 2 topics = 37 metrics = $11.10/month
+1 cluster + 5 topics = 47 metrics = $14.10/month
+1 cluster + 10 topics = 57 metrics = $17.10/month
 ```
+
+### Scaling Formula
+```
+Total Metrics = 27 (cluster-level) + (5 × number of topics)
+Monthly Cost = Total Metrics × $0.30
+```
+
+## 🔍 Real-World Examples
+
+### Small Deployment (3 topics)
+- **Metrics**: 27 + (5 × 3) = 42 metrics
+- **Cost**: $12.60/month per cluster
+
+### Medium Deployment (10 topics)  
+- **Metrics**: 27 + (5 × 10) = 77 metrics
+- **Cost**: $23.10/month per cluster
+
+### Large Deployment (50 topics)
+- **Metrics**: 27 + (5 × 50) = 277 metrics  
+- **Cost**: $83.10/month per cluster
+
+## 🎯 Cost Optimization for Multi-Topic
+
+### Option 1: Remove Topic Dimension
+Modify the watchdog to exclude topic dimension:
+```python
+# Remove topic dimension from these 5 metrics
+# Result: Fixed 27 metrics regardless of topic count
+```
+
+### Option 2: Monitor Only Critical Topics
+```python
+# Only monitor high-traffic topics
+critical_topics = ['orders', 'payments', 'notifications']
+```
+
+### Option 3: Aggregate Topic Metrics
+```python
+# Use wildcard or aggregate all topics into single metric
+topic_dimension = 'all-topics'
+```
+
+## ✅ Key Takeaway
+
+**Current cost**: $9.60/month assumes **1 topic** (`dashboard-metrics-test`)
+
+**If you have multiple topics**, add **$1.50/month per additional topic** (5 metrics × $0.30)
 
 ## 🔍 Key Insight
 
